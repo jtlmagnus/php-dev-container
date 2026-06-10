@@ -19,7 +19,7 @@ services:
     stop_grace_period: 0.3s
     networks:
       default:
-        aliases:
+        #aliases:
           # enter urls that should be available via curl in the web container here, e.g.:
           # - myapp.test
   php-8.0:
@@ -30,8 +30,10 @@ services:
       dockerfile: fpm.dockerfile
       args:
         - PHP_EXTENSIONS=${PHP_EXTENSIONS}
+        - BASH_EXTENSIONS=${BASH_EXTENSIONS}
         - PHP_VERSION=8.0
         - USERNAME=${USERNAME}
+        - NODE_VERSION=${NODE_VERSION}
     user: ${UID}:${GID}
     volumes:
       - ${WORKDIR}:/var/www/html/
@@ -47,8 +49,10 @@ services:
       dockerfile: fpm.dockerfile
       args:
         - PHP_EXTENSIONS=${PHP_EXTENSIONS}
+        - BASH_EXTENSIONS=${BASH_EXTENSIONS}
         - PHP_VERSION=8.1
         - USERNAME=${USERNAME}
+        - NODE_VERSION=${NODE_VERSION}
     user: ${UID}:${GID}
     volumes:
       - ${WORKDIR}:/var/www/html/
@@ -64,8 +68,10 @@ services:
       dockerfile: fpm.dockerfile
       args:
         - PHP_EXTENSIONS=${PHP_EXTENSIONS}
+        - BASH_EXTENSIONS=${BASH_EXTENSIONS}
         - PHP_VERSION=8.2
         - USERNAME=${USERNAME}
+        - NODE_VERSION=${NODE_VERSION}
     user: ${UID}:${GID}
     volumes:
       - ${WORKDIR}:/var/www/html/
@@ -81,8 +87,10 @@ services:
       dockerfile: fpm.dockerfile
       args:
         - PHP_EXTENSIONS=${PHP_EXTENSIONS}
+        - BASH_EXTENSIONS=${BASH_EXTENSIONS}
         - PHP_VERSION=8.3
         - USERNAME=${USERNAME}
+        - NODE_VERSION=${NODE_VERSION}
     user: ${UID}:${GID}
     volumes:
       - ${WORKDIR}:/var/www/html/
@@ -98,8 +106,10 @@ services:
       dockerfile: fpm.dockerfile
       args:
         - PHP_EXTENSIONS=${PHP_EXTENSIONS}
+        - BASH_EXTENSIONS=${BASH_EXTENSIONS}
         - PHP_VERSION=8.4
         - USERNAME=${USERNAME}
+        - NODE_VERSION=${NODE_VERSION}
     user: ${UID}:${GID}
     volumes:
       - ${WORKDIR}:/var/www/html/
@@ -115,8 +125,10 @@ services:
       dockerfile: fpm.dockerfile
       args:
         - PHP_EXTENSIONS=${PHP_EXTENSIONS}
+        - BASH_EXTENSIONS=${BASH_EXTENSIONS}
         - PHP_VERSION=8.5
         - USERNAME=${USERNAME}
+        - NODE_VERSION=${NODE_VERSION}
     user: ${UID}:${GID}
     volumes:
       - ${WORKDIR}:/var/www/html/
@@ -141,7 +153,7 @@ services:
     container_name: mssql
     environment:
       - ACCEPT_EULA=Y
-      - MSSQL_SA_PASSWORD=
+      - MSSQL_SA_PASSWORD=${MSSQL_PASSWORD}
       - MSSQL_OID=Express
       - MSSQL_COLLATION=Latin1_General_CI_AS
     ports:

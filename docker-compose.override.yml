@@ -1,0 +1,4 @@
+services:
+  wawidb:
+    platform: linux/amd64
+      

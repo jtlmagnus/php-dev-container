@@ -68,3 +68,35 @@ Required Modules: vhost_alias rewrite proxy_fcgi
 10. **MariaDB Database** can be accessed with external database management tool like **dbeaver** and alike using **localhost:3306** as host. Databases will be persisted in **./databases** folder.
 
 11. To access the **bash cli** run the following command to start a cli container which closes itself after exiting: `docker compose run --rm cli`
+
+## Shell Aliases
+To make working with the container easier, you can register a set of aliases that wrap the most common `docker compose` commands so you can run them from any directory.
+
+To avoid hardcoding the path, run the following snippet **from the repository root** (the directory containing `docker-compose.yml`). It captures the current path with `$(pwd)` and writes the aliases with the absolute path baked in into your `~/.zshrc` (use `~/.bashrc` for bash):
+
+```bash
+DEV_CONTAINER_PATH="$(pwd)"
+cat >> ~/.zshrc <<EOF
+
+# php-dev-container aliases
+alias devup="(cd $DEV_CONTAINER_PATH && docker compose up -d)"
+alias devdown="docker compose -f $DEV_CONTAINER_PATH/docker-compose.yml down"
+alias devrestart="(cd $DEV_CONTAINER_PATH && docker compose down && docker compose up -d)"
+alias devlogs="docker compose -f $DEV_CONTAINER_PATH/docker-compose.yml logs"
+EOF
+```
+
+Since the heredoc is unquoted, `$DEV_CONTAINER_PATH` is expanded **at the time the snippet runs**, so the resulting lines in `~/.zshrc` will contain the absolute path of the repository.
+
+The start aliases (`devup` / `devrestart`) `cd` into the repository in a subshell instead of pointing at `docker-compose.yml` directly. This way `docker compose` automatically merges a `docker-compose.override.yml` if one is present. The subshell `( ... )` ensures the working directory of your shell does not change.
+
+After running it, reload your shell config (e.g. `source ~/.zshrc`) and use the aliases as follows:
+
+>- **devup**
+> Starts the dev container in detached mode.
+>- **devdown**
+> Stops and removes the dev container.
+>- **devrestart**
+> Stops the container and starts it again in detached mode.
+>- **devlogs**
+> Shows the logs of the dev container.
