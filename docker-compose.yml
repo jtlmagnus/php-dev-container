@@ -157,6 +157,6 @@ services:
       - MSSQL_OID=Express
       - MSSQL_COLLATION=Latin1_General_CI_AS
     ports:
-      - 1433:1433
+      - ${MSSQL_PORT:-1433}:1433
     volumes:
       - ./mssql/:/var/opt/mssql/
