@@ -51,13 +51,13 @@ Required Modules: vhost_alias rewrite proxy_fcgi
 
 2. Use `docker compose --build` this will start pulling and building the images. This process will take a lot of time so be patient. If the **PHP_VERSION** is changed in the **.env** file the build process for the cli container needs to be repeated. This step is only needed once for every **PHP_VERSION** if you need them.
 
-3. If you need to switch the server php-fpm version, create an empty file in your project root with one of the following names: 80.phpversion / 81.phpversion / 82.phpversion no restart required.
+3. If you need to switch the server php-fpm version, create an empty file in your project root with one of the following names: **80.phpversion** / **81.phpversion** / **82.phpversion** no restart required.
 
 4. Once the images are built, the container can be started with `docker compose up -d`.
 
-5. All your projects will be reachable via wildcard domain, the pattern is **foldername.localhost** to reach the **root** of your project or **foldername.public.localhost** to reach the **public** folder of your project, if you wish to change the domain ending it has to be changed in **./data/apache/wildcard.conf** on line 2
+5. All your projects will be reachable via wildcard domain, the pattern is **foldername.test** to reach the **root** of your project or **foldername.public.test** to reach the **public** folder of your project, if you wish to change the domain ending it has to be changed in **./data/apache/wildcard.conf**.
 
-6. Domains ending in .localhost always loop back to 127.0.0.1 so there is no need for a dns service like dnsmasq.
+6. Domains ending in .test require a local DNS resolver like **dnsmasq** or manual entries in **/etc/hosts** (e.g. `127.0.0.1 foldername.test`) to resolve to 127.0.0.1.
 
 7. **.ssh** and **.gitconfig** for the **cli** image will be mounted from the host home directory to the container user home directory as defined in the .env file. So the files need to be created and stored on the host first.
 
